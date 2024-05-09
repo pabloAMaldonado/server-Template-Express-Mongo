@@ -15,8 +15,10 @@ dotenv.config();
 
 mongoose.set('strictQuery', false);
 
-const port = process.env.PORT || 3000;
-const db = process.env.DB;
+const PORT = process.env.PORT || 3000;
+const DB = process.env.DB;
+
+const { swaggerDocs } = require('./src/configuration/swaggerConfig');
 
 async function connectToDatabase(db) {
     try {
@@ -29,7 +31,7 @@ async function connectToDatabase(db) {
     }
   }
   
-  connectToDatabase(db);
+  connectToDatabase(DB);
   
   const dataBase = mongoose.connection;
   
@@ -52,6 +54,7 @@ async function connectToDatabase(db) {
   app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
   
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}!`);
+app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}!`);
+  swaggerDocs(app, PORT);
 });
